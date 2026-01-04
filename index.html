@@ -14,22 +14,29 @@
     }
 
     header {
-      background: #004080;
-      color: white;
-      padding: 2rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    header {
-      background: #004080 url('spokane-pavilion.png') no-repeat center bottom;
+      background-color: #004080;
+      background-image: url('spokane-pavilion.png');
+      background-repeat: no-repeat;
+      background-position: center bottom;
       background-size: cover;
       color: white;
-      padding: 2rem;
+      padding: 6rem 2rem 6rem 2rem; /* gives the skyline room to appear */
       text-align: center;
       position: relative;
       overflow: hidden;
+      opacity: 1; /* header stays fully visible */
+    }
+
+    header::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url('spokane-pavilion.png');
+      background-repeat: no-repeat;
+      background-position: center bottom;
+      background-size: cover;
+      opacity: 0.35; /* <-- THIS is the skyline opacity */
+      pointer-events: none;
     }
     
     .container {
