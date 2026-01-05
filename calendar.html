@@ -112,21 +112,33 @@
       while (date.getMonth() === month) {
         const day = document.createElement("div");
         day.className = "day";
+
         const weekday = date.getDay();
         const isPast = date < today;
 
-        if (isPast) {
-          day.classList.add("past");
-        } else if (weekday >= 2 && weekday <= 6) {
-          day.classList.add("available");
-        } else {
-          day.classList.add("unavailable");
-        }
+        // Format YYYY-MM-DD for linking
+        const isoDate = date.toISOString().split("T")[0];
 
-        day.innerText = date.getDate();
-        grid.appendChild(day);
-        date.setDate(date.getDate() + 1);
+        if (isPast) {
+        day.classList.add("past");
+      } else if (weekday >= 2 && weekday <= 6) {
+        // Work days (Tue–Sat)
+        day.classList.add("available");
+
+        // Make available days clickable
+        day.onclick = () => {
+          window.location.href = `hourly.html?date=${isoDate}`;
+        };
+
+      } else {
+        day.classList.add("unavailable");
       }
+
+      day.innerText = date.getDate();
+      grid.appendChild(day);
+
+      date.setDate(date.getDate() + 1);
+    }
 
       calendar.appendChild(grid);
     }
