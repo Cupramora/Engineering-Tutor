@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Booking Application</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #004080;
+    }
+
+    label {
+      font-weight: bold;
+      margin-top: 1rem;
+      display: block;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    textarea {
+      height: 120px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      margin-top: 1.5rem;
+      padding: 0.75rem 1.5rem;
+      background: #004080;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .nav-buttons {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .nav-button {
+      padding: 0.75rem 1.5rem;
+      background: #004080;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1 id="booking-title">Booking</h1>
+
+    <form id="booking-form">
+
+      <label>Name</label>
+      <input type="text" id="name" required />
+
+      <label>Phone or Email</label>
+      <input type="text" id="contact" required />
+
+      <label>Class of Study</label>
+      <select id="class">
+        <option>Pre-Algebra</option>
+        <option>Algebra</option>
+        <option>Pre-Calculus</option>
+        <option>Calculus I</option>
+        <option>Calculus II</option>
+        <option>Calculus III</option>
+        <option>Differential Equations</option>
+        <option>Physics I</option>
+        <option>Physics II</option>
+        <option>Physics III</option>
+        <option>Linear Algebra</option>
+        <option>Engineering Basics (Statics, Pascal’s Law, Hydrostatics)</option>
+        <option>Engineering Statistics</option>
+        <option>Circuit Theory</option>
+        <option>Mechanics / Biomechanics</option>
+        <option>Molecular Engineering</option>
+        <option>Protein Engineering</option>
+        <option>Systems Engineering I</option>
+        <option>Systems Engineering II</option>
+        <option>Chimera Protein Simulations</option>
+        <option>MATLAB Help</option>
+        <option>SolidWorks / FreeCAD</option>
+        <option>Good Lab Practice & Safety</option>
+      </select>
+
+      <label>Message (optional)</label>
+      <textarea id="message"></textarea>
+
+      <button type="submit" class="submit-btn">Submit Booking Request</button>
+    </form>
+
+    <div class="nav-buttons">
+      <a href="calendar.html" class="nav-button">Back to Calendar</a>
+      <a href="index.html" class="nav-button">Main Menu</a>
+    </div>
+  </div>
+
+  <script>
+    // Read date + hour from URL
+    const params = new URLSearchParams(window.location.search);
+    const date = params.get("date");
+    const hour = params.get("hour");
+
+    // Display at top
+    const title = document.getElementById("booking-title");
+    title.textContent = `Booking for ${date} at ${hour}`;
+
+    // Handle form submission
+    document.getElementById("booking-form").onsubmit = (e) => {
+      e.preventDefault();
+
+      alert("Booking request submitted! (Functionality coming soon)");
+
+      // Later: save to localStorage or send to backend
+    };
+  </script>
+</body>
+</html>
