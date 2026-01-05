@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Availability Calendar</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #004080;
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+    }
+
+    .day {
+      padding: 1rem;
+      text-align: center;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .available {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .unavailable {
+      background: #d9534f;
+      color: white;
+    }
+
+    .past {
+      background: #999;
+      color: white;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Availability Calendar</h1>
+    <div id="calendar"></div>
+  </div>
+
+  <script>
+    let currentYear = 2026;
+    let currentMonth = 0; // January
+
+    function generateCalendar(year, month) {
+      const calendar = document.getElementById("calendar");
+      calendar.innerHTML = "";
+
+      const today = new Date();
+      const date = new Date(year, month, 1);
+      const monthName = date.toLocaleString("default", { month: "long" });
+
+      const header = document.createElement("div");
+      header.className = "calendar-header";
+      header.innerHTML = `
+        <button onclick="changeMonth(-1)">◀</button>
+        <h2>${monthName} ${year}</h2>
+        <button onclick="changeMonth(1)">▶</button>
+      `;
+      calendar.appendChild(header);
+
+      const grid = document.createElement("div");
+      grid.className = "calendar-grid";
+
+      const days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+      days.forEach(d => {
+        const label = document.createElement("div");
+        label.className = "day";
+        label.style.background = "#eee";
+        label.innerText = d;
+        grid.appendChild(label);
+      });
+
+      for (let i = 0; i < date.getDay(); i++) {
+        const empty = document.createElement("div");
+        grid.appendChild(empty);
+      }
+
+      while (date.getMonth() === month) {
+        const day = document.createElement("div");
+        day.className = "day";
+        const weekday = date.getDay();
+        const isPast = date < today;
+
+        if (isPast) {
+          day.classList.add("past");
+        } else if (weekday >= 2 && weekday <= 6) {
+          day.classList.add("available");
+        } else {
+          day.classList.add("unavailable");
+        }
+
+        day.innerText = date.getDate();
+        grid.appendChild(day);
+        date.setDate(date.getDate() + 1);
+      }
+
+      calendar.appendChild(grid);
+    }
+
+    function changeMonth(direction) {
+      currentMonth += direction;
+      if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      }
+      generateCalendar(currentYear, currentMonth);
+    }
+
+    generateCalendar(currentYear, currentMonth);
+  </script>
+</body>
+</html>
