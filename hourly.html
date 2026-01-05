@@ -112,18 +112,16 @@
           div.classList.add("booked");
         } else {
           div.classList.add("available");
-          div.onclick = () => bookHour(hour);
+
+          // THIS is the correct click handler
+          div.onclick = () => {
+            window.location.href = `booking.html?date=${dateString}&hour=${hour}`;
+          };
         }
 
         div.textContent = hour;
         hoursDiv.appendChild(div);
       });
-    }
-
-    function bookHour(hour) {
-      bookings[dateString].push(hour);
-      localStorage.setItem("bookings", JSON.stringify(bookings));
-      renderHours();
     }
 
     renderHours();
