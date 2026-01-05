@@ -13,27 +13,29 @@
       color: #333;
     }
 
-    header {
-      background: #004080;
-      color: white;
-      padding: 4rem 2rem; /* increased height */
-      text-align: center;
+      header {
+      background-image: url('spokane-pavilion.png');
+      background-size: cover;
+      background-position: center bottom;
       position: relative;
+      color: white;
+      text-align: center;
+      padding: 6rem 2rem;
       overflow: hidden;
     }
 
-    header::after {
+    header::before {
       content: "";
       position: absolute;
-      right: 20px;
-      bottom: 0;
-      width: 350px;      /* slightly larger */
-      height: 200px;     /* gives it a real footprint */
-      background-repeat: no-repeat;
-      background-size: contain;
-      opacity: 0.35;     /* subtle ghosted look */
-      z-index: 0;        /* behind the text */
-      background-image: url('spokane-pavilion.png');
+      inset: 0;
+      background-color: rgba(0, 64, 128, 0.6); /* semi-transparent blue overlay */
+      z-index: 0;
+    }
+
+    header h1,
+    header p {
+      position: relative;
+      z-index: 1;
     }
 
     .container {
