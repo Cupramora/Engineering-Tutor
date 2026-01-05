@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book an Hour</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #004080;
+    }
+
+    .hour {
+      padding: 1rem;
+      margin: 0.5rem 0;
+      border-radius: 6px;
+      font-weight: bold;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .available {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .booked {
+      background: #d9534f;
+      color: white;
+      cursor: not-allowed;
+    }
+
+    .buttons {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .nav-button {
+      padding: 0.75rem 1.5rem;
+      background: #004080;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1 id="date-title">Loading...</h1>
+
+    <div id="hours"></div>
+
+    <div class="buttons">
+      <a href="calendar.html" class="nav-button">Back to Calendar</a>
+      <a href="index.html" class="nav-button">Main Menu</a>
+    </div>
+  </div>
+
+  <script>
+    // Parse date from URL
+    const params = new URLSearchParams(window.location.search);
+    const dateString = params.get("date"); // e.g. "2026-01-14"
+
+    // Display date at top
+    const dateTitle = document.getElementById("date-title");
+    const dateObj = new Date(dateString);
+    dateTitle.textContent = dateObj.toDateString();
+
+    // Hours available
+    const hours = ["10am", "11am", "12pm", "1pm"];
+
+    // Load bookings from localStorage
+    const bookings = JSON.parse(localStorage.getItem("bookings") || "{}");
+
+    // Ensure date key exists
+    if (!bookings[dateString]) {
+      bookings[dateString] = [];
+    }
+
+    const hoursDiv = document.getElementById("hours");
+
+    function renderHours() {
+      hoursDiv.innerHTML = "";
+
+      hours.forEach(hour => {
+        const div = document.createElement("div");
+        div.className = "hour";
+
+        const isBooked = bookings[dateString].includes(hour);
+
+        if (isBooked) {
+          div.classList.add("booked");
+        } else {
+          div.classList.add("available");
+          div.onclick = () => bookHour(hour);
+        }
+
+        div.textContent = hour;
+        hoursDiv.appendChild(div);
+      });
+    }
+
+    function bookHour(hour) {
+      bookings[dateString].push(hour);
+      localStorage.setItem("bookings", JSON.stringify(bookings));
+      renderHours();
+    }
+
+    renderHours();
+  </script>
+</body>
+</html>
