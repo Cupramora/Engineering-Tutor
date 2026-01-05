@@ -16,7 +16,7 @@
     header {
       background: #004080;
       color: white;
-      padding: 2rem;
+      padding: 4rem 2rem; /* increased height */
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -27,13 +27,13 @@
       position: absolute;
       right: 20px;
       bottom: 0;
-      width: 300px;
-      height: auto;
+      width: 350px;      /* slightly larger */
+      height: 200px;     /* gives it a real footprint */
       background-repeat: no-repeat;
       background-size: contain;
-      opacity: 1;
-      z-index: 10;
-      background-image: url('spokane-pavilion.png'); /* Make sure this file is uploaded */
+      opacity: 0.35;     /* subtle ghosted look */
+      z-index: 0;        /* behind the text */
+      background-image: url('spokane-pavilion.png');
     }
 
     .container {
