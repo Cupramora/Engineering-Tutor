@@ -95,6 +95,31 @@
         <option value="In-person">In-person</option>
       </select>
 
+<!-- Location dropdown (hidden unless "In-person" is selected) -->
+      <div id="location-container" style="display:none;">
+        <label for="location">Preferred In-Person Location:</label>
+        <select id="location" name="location">
+          <option value="">Select a location</option>
+          <option value="Downtown Spokane Library">Downtown Spokane Library</option>
+          <option value="South Hill Library">South Hill Library</option>
+          <option value="Shadle Park Library">Shadle Park Library</option>
+          <option value="North Spokane Library">North Spokane Library</option>
+          <option value="Indaba Coffee">Indaba Coffee</option>
+          <option value="Ladder Coffee">Ladder Coffee</option>
+          <option value="Thomas Hammer">Thomas Hammer</option>
+          <option value="Vessel Coffee Roasters">Vessel Coffee Roasters</option>
+          <option value="Other">Other (type below)</option>
+        </select>
+
+        <input 
+          type="text" 
+          id="other-location" 
+          name="other-location" 
+          placeholder="Enter custom location" 
+          style="display:none; margin-top:8px;"
+        >
+      </div>
+
 
       <label>Class of Study</label>
       <select id="class">
@@ -145,21 +170,53 @@
     const title = document.getElementById("booking-title");
     title.textContent = `Booking for ${date} at ${hour}`;
 
-    // Handle form submission
-    document.getElementById("booking-form").onsubmit = (e) => {
-      e.preventDefault();
+    // Show/hide location dropdown based on method
+    document.getElementById('method').addEventListener('change', function() {
+      const locContainer = document.getElementById('location-container');
+      if (this.value === 'In-person') {
+        locContainer.style.display = 'block';
+      } else {
+        locContainer.style.display = 'none';
+      }
+    });
 
-      const name = document.getElementById("name").value;
-      const contact = document.getElementById("contact").value;
-      const studyClass = document.getElementById("class").value;
-      const message = document.getElementById("message").value;
+    // Show custom location box if "Other" is selected
+    document.getElementById('location').addEventListener('change', function() {
+      const otherBox = document.getElementById('other-location');
+      if (this.value === 'Other') {
+        otherBox.style.display = 'block';
+      } else {
+        otherBox.style.display = 'none';
+      }
 
-      const subject = `Booking Request for ${date} at ${hour}`;
-      const body =
-        `Name: ${name}%0A` +
-        `Contact: ${contact}%0A` +
-        `Class: ${studyClass}%0A` +
-        `Message: ${message}`;
+      // Handle form submission
+      document.getElementById("booking-form").onsubmit = (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById("name").value;
+        const contact = document.getElementById("contact").value;
+        const studyClass = document.getElementById("class").value;
+        const message = document.getElementById("message").value;
+
+        const subject = `Booking Request for ${date} at ${hour}`;
+        const method = document.getElementById("method").value;
+
+        let locationText = "";
+        if (method === "In-person") {
+          const loc = document.getElementById("location").value;
+          const otherLoc = document.getElementById("other-location").value;
+          locationText = loc === "Other" ? otherLoc : loc;
+        }
+
+        const subject = `Booking Request for ${date} at ${hour}`;
+        const body =
+          `Name: ${name}%0A` +
+          `Contact: ${contact}%0A` +
+          `Class: ${studyClass}%0A` +
+          `Communication Method: ${method}%0A` +
+          (method === "In-person" ? `Location: ${locationText}%0A` : "") +
+          `Message: ${message}`;
+
 
       window.location.href =
         `mailto:danewashington.engineer@gmail.com?subject=${subject}&body=${body}`;
