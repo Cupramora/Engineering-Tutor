@@ -159,7 +159,7 @@
       <a href="index.html" class="nav-button">Main Menu</a>
     </div>
   </div>
-
+  
   <script>
     // Read date + hour from URL
     const params = new URLSearchParams(window.location.search);
@@ -167,61 +167,51 @@
     const hour = params.get("hour");
 
     // Display at top
-    const title = document.getElementById("booking-title");
-    title.textContent = `Booking for ${date} at ${hour}`;
+    document.getElementById("booking-title").textContent =
+      `Booking for ${date} at ${hour}`;
 
     // Show/hide location dropdown based on method
     document.getElementById('method').addEventListener('change', function() {
       const locContainer = document.getElementById('location-container');
-      if (this.value === 'In-person') {
-        locContainer.style.display = 'block';
-      } else {
-        locContainer.style.display = 'none';
-      }
+      locContainer.style.display = this.value === 'In-person' ? 'block' : 'none';
     });
 
     // Show custom location box if "Other" is selected
     document.getElementById('location').addEventListener('change', function() {
       const otherBox = document.getElementById('other-location');
-      if (this.value === 'Other') {
-        otherBox.style.display = 'block';
-      } else {
-        otherBox.style.display = 'none';
+      otherBox.style.display = this.value === 'Other' ? 'block' : 'none';
+    });
+
+    // Handle form submission
+    document.getElementById("booking-form").onsubmit = (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const contact = document.getElementById("contact").value;
+      const studyClass = document.getElementById("class").value;
+      const message = document.getElementById("message").value;
+      const method = document.getElementById("method").value;
+
+      let locationText = "";
+      if (method === "In-person") {
+        const loc = document.getElementById("location").value;
+        const otherLoc = document.getElementById("other-location").value;
+        locationText = loc === "Other" ? otherLoc : loc;
       }
 
-      // Handle form submission
-      document.getElementById("booking-form").onsubmit = (e) => {
-        e.preventDefault();
-
-        const name = document.getElementById("name").value;
-        const contact = document.getElementById("contact").value;
-        const studyClass = document.getElementById("class").value;
-        const message = document.getElementById("message").value;
-
-        const subject = `Booking Request for ${date} at ${hour}`;
-        const method = document.getElementById("method").value;
-
-        let locationText = "";
-        if (method === "In-person") {
-          const loc = document.getElementById("location").value;
-          const otherLoc = document.getElementById("other-location").value;
-          locationText = loc === "Other" ? otherLoc : loc;
-        }
-
-        const subject = `Booking Request for ${date} at ${hour}`;
-        const body =
-          `Name: ${name}%0A` +
-          `Contact: ${contact}%0A` +
-          `Class: ${studyClass}%0A` +
-          `Communication Method: ${method}%0A` +
-          (method === "In-person" ? `Location: ${locationText}%0A` : "") +
-          `Message: ${message}`;
-
+      const subject = `Booking Request for ${date} at ${hour}`;
+      const body =
+        `Name: ${name}%0A` +
+        `Contact: ${contact}%0A` +
+        `Class: ${studyClass}%0A` +
+        `Communication Method: ${method}%0A` +
+        (method === "In-person" ? `Location: ${locationText}%0A` : "") +
+        `Message: ${message}`;
 
       window.location.href =
         `mailto:danewashington.engineer@gmail.com?subject=${subject}&body=${body}`;
     };
-
+    
   </script>
 </body>
 </html>
